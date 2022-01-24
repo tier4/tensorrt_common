@@ -39,6 +39,7 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
   ${TENSORRT_LIBRARIES}
+  stdc++fs
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE

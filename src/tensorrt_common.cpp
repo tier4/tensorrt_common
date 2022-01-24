@@ -42,16 +42,16 @@ TrtCommon::TrtCommon(
 
 void TrtCommon::setup()
 {
-  if (!std::filesystem::exists(model_file_path_)) {
+  if (!fs::exists(model_file_path_)) {
     is_initialized_ = false;
     return;
   }
   if (model_file_path_.extension() == ".engine") {
     loadEngine(model_file_path_);
   } else if (model_file_path_.extension() == ".onnx") {
-    std::filesystem::path cache_engine_path{model_file_path_};
+    fs::path cache_engine_path{model_file_path_};
     cache_engine_path.replace_extension("engine");
-    if (std::filesystem::exists(cache_engine_path)) {
+    if (fs::exists(cache_engine_path)) {
       loadEngine(cache_engine_path);
     } else {
       logger_.log(nvinfer1::ILogger::Severity::kINFO, "Start build engine");

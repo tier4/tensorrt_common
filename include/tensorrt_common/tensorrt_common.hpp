@@ -20,7 +20,14 @@
 #include <NvInfer.h>
 #include <NvOnnxParser.h>
 
-#include <filesystem>  // NOLINT
+#if(defined(_MSC_VER) or (defined(__GNUC__) and (7 <= __GNUC_MAJOR__)))
+#include <filesystem>
+namespace fs = ::std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = ::std::experimental::filesystem;
+#endif
+
 #include <memory>
 #include <sstream>
 #include <string>
@@ -108,7 +115,7 @@ public:
 
 private:
   Logger logger_;
-  std::filesystem::path model_file_path_;
+  fs::path model_file_path_;
   TrtUniquePtr<nvinfer1::IRuntime> runtime_;
   TrtUniquePtr<nvinfer1::ICudaEngine> engine_;
   TrtUniquePtr<nvinfer1::IExecutionContext> context_;
