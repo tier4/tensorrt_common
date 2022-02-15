@@ -202,7 +202,7 @@ bool TrtCommon::setBindingDimensions(const int32_t index, const nvinfer1::Dims &
 }
 
 bool TrtCommon::enqueueV2(
-  void * const * bindings, cudaStream_t stream,
+  void ** bindings, cudaStream_t stream,
   cudaEvent_t * input_consumed)
 {
   return context_->enqueueV2(bindings, stream, input_consumed);

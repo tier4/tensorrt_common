@@ -111,7 +111,7 @@ public:
 
   nvinfer1::Dims getBindingDimensions(const int32_t index) const;
   bool setBindingDimensions(const int32_t index, const nvinfer1::Dims & dimensions) const;
-  bool enqueueV2(void * const * bindings, cudaStream_t stream, cudaEvent_t * input_consumed);
+  bool enqueueV2(void ** bindings, cudaStream_t stream, cudaEvent_t * input_consumed);
 
 private:
   Logger logger_;
