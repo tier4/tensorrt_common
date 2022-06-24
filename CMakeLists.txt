@@ -15,7 +15,7 @@ ament_auto_find_build_dependencies()
 
 find_package(CUDA REQUIRED)
 find_package(CUDNN REQUIRED)
-find_package(TensorRT REQUIRED)
+find_package(TENSORRT REQUIRED)
 
 if(NOT (${CUDA_FOUND} AND ${CUDNN_FOUND} AND ${TENSORRT_FOUND}))
   message(WARNING "cuda, cudnn, tensorrt libraries are not found")
@@ -58,6 +58,6 @@ ament_export_dependencies(CUDA)
 ament_export_dependencies(cudnn_cmake_module)
 ament_export_dependencies(CUDNN)
 ament_export_dependencies(tensorrt_cmake_module)
-ament_export_dependencies(TensorRT)
+ament_export_dependencies(TENSORRT)
 
 ament_auto_package()
