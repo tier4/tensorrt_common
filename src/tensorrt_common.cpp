@@ -46,7 +46,7 @@ TrtCommon::TrtCommon(
     // so. In order to get proper stack traces, don't delete the shared library on
     // close so that asan can resolve the symbols correctly.
     flags |= RTLD_NODELETE;
-#endif // ENABLE_ASAN
+#endif  // ENABLE_ASAN
     void * handle = dlopen(plugin_path.c_str(), flags);
     if (!handle) {
       logger_.log(nvinfer1::ILogger::Severity::kERROR, "Could not load plugin library");
