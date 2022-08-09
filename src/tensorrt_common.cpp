@@ -114,8 +114,11 @@ bool TrtCommon::buildEngineFromOnnx(
   if (precision_ == "fp16" || precision_ == "int8") {
     config->setFlag(nvinfer1::BuilderFlag::kFP16);
   }
-
+#if (NV_TENSORRT_MAJOR * 1000) + (NV_TENSORRT_MINOR * 100) + NV_TENSOR_PATCH >= 8400
+  config->setMemoryPoolLimit(nvinfer1::MemoryPoolType::kWORKSPACE, max_workspace_size_);
+#else
   config->setMaxWorkspaceSize(max_workspace_size_);
+#endif
 
   auto parser = TrtUniquePtr<nvonnxparser::IParser>(nvonnxparser::createParser(*network, logger_));
   if (!parser->parseFromFile(
