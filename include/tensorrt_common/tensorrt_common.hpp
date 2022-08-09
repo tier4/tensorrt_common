@@ -35,8 +35,8 @@ namespace fs = ::std::experimental::filesystem;
 
 namespace tensorrt_common
 {
-class Logger : public nvinfer1::ILogger
-{
+  class Logger : public nvinfer1::ILogger  // NOLINT
+  {
 public:
     Logger()
     : Logger(Severity::kINFO) {}
@@ -72,10 +72,10 @@ public:
 
     Severity reportable_severity_{Severity::kWARNING};
     rclcpp::Logger logger_{rclcpp::get_logger("tensorrt_common")};
-};
+  };
 
   template<typename T>
-  struct InferDeleter
+  struct InferDeleter  // NOLINT
   {
     void operator()(T * obj) const
     {
@@ -94,7 +94,7 @@ public:
 
   using BatchConfig = std::array<int32_t, 3>;
 
-  class TrtCommon
+  class TrtCommon  // NOLINT
   {
 public:
     TrtCommon(
