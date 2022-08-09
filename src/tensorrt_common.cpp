@@ -16,6 +16,7 @@
 
 #include <NvInferPlugin.h>
 
+#include <dlfcn.h>
 #include <fstream>
 #include <functional>
 #include <memory>
@@ -29,13 +30,28 @@ TrtCommon::TrtCommon(
   const std::string & model_path, const std::string & precision,
   std::unique_ptr<nvinfer1::IInt8EntropyCalibrator2> calibrator,
   const tensorrt_common::BatchConfig & batch_config,
-  const size_t max_workspace_size)
+  const size_t max_workspace_size,
+  const std::vector<std::string> & plugin_paths)
 : model_file_path_(model_path),
   calibrator_(std::move(calibrator)),
   precision_(precision),
   batch_config_(batch_config),
   max_workspace_size_(max_workspace_size)
 {
+  for (const auto & plugin_path : plugin_paths) {
+    int32_t flags{RTLD_LAZY};
+#if ENABLE_ASAN
+    // https://github.com/google/sanitizers/issues/89
+    // asan doesn't handle module unloading correctly and there are no plans on doing
+    // so. In order to get proper stack traces, don't delete the shared library on
+    // close so that asan can resolve the symbols correctly.
+    flags |= RTLD_NODELETE;
+#endif // ENABLE_ASAN
+    void * handle = dlopen(plugin_path.c_str(), flags);
+    if (!handle) {
+      logger_.log(nvinfer1::ILogger::Severity::kERROR, "Could not load plugin library");
+    }
+  }
   runtime_ = TrtUniquePtr<nvinfer1::IRuntime>(nvinfer1::createInferRuntime(logger_));
   initLibNvInferPlugins(&logger_, "");
 }

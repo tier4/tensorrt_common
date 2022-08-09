@@ -100,7 +100,8 @@ public:
     const std::string & model_path, const std::string & precision,
     std::unique_ptr<nvinfer1::IInt8EntropyCalibrator2> calibrator = nullptr,
     const BatchConfig & batch_config = {1, 1, 1},
-    const size_t max_workspace_size = (16 << 20));
+    const size_t max_workspace_size = (16 << 20),
+    const std::vector<std::string> & plugin_paths = {});
 
   bool loadEngine(const std::string & engine_file_path);
   bool buildEngineFromOnnx(
