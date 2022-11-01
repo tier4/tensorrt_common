@@ -214,6 +214,10 @@ nvinfer1::Dims TrtCommon::getBindingDimensions(const int32_t index) const
   return context_->getBindingDimensions(index);
 }
 
+int32_t TrtCommon::getNbBindings()
+{
+  return engine_->getNbBindings();
+}
 
 bool TrtCommon::setBindingDimensions(const int32_t index, const nvinfer1::Dims & dimensions) const
 {
